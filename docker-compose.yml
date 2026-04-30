@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    image: php:8.2-cli
+    container_name: coding-challenge-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+    working_dir: /app
+    command: php -S 0.0.0.0:8000 -t /app
+    networks:
+      - challenge-network
+
+  challenge:
+    image: php:8.2-cli
+    container_name: coding-challenge-app
+    volumes:
+      - ./challenge:/app
+    working_dir: /app
+    networks:
+      - challenge-network
+    depends_on:
+      - api
+
+networks:
+  challenge-network:
+    driver: bridge
