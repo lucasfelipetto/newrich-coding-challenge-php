@@ -1,11 +1,8 @@
-version: '3.8'
-
 services:
+  # Internal-only: reachable by other services as http://api:8000
   api:
     image: php:8.2-cli
     container_name: coding-challenge-api
-    ports:
-      - "8000:8000"
     volumes:
       - ./api:/app
     working_dir: /app
@@ -13,16 +10,39 @@ services:
     networks:
       - challenge-network
 
-  challenge:
+  # Internal-only: reachable by the frontend proxy as http://backend:8080
+  backend:
     image: php:8.2-cli
-    container_name: coding-challenge-app
+    container_name: coding-challenge-backend
     volumes:
-      - ./challenge:/app
+      - .:/app
     working_dir: /app
+    command: php -S 0.0.0.0:8080 -t public
+    environment:
+      # Reach the mock API through the compose network DNS, not localhost.
+      UPSTREAM_API_URL: http://api:8000
     networks:
       - challenge-network
     depends_on:
       - api
+
+  # The only service exposed to the host. Vite proxies /api -> backend.
+  frontend:
+    image: node:20
+    container_name: coding-challenge-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    environment:
+      VITE_PROXY_TARGET: http://backend:8080
+    networks:
+      - challenge-network
+    depends_on:
+      - backend
 
 networks:
   challenge-network:
