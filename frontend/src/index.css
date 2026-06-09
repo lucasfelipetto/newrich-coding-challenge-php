@@ -1,0 +1,235 @@
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-alt: #273449;
+  --border: #334155;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #6366f1;
+  --accent-contrast: #ffffff;
+  --active: #22c55e;
+  --inactive: #ef4444;
+  --radius: 12px;
+
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.app__header {
+  margin-bottom: 1.5rem;
+}
+
+.app__title {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.app__subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--text-muted);
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.filter-bar__search {
+  flex: 1 1 220px;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.filter-bar__search:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.filter-bar__status {
+  display: inline-flex;
+  gap: 0.4rem;
+  background: var(--surface);
+  padding: 0.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.chip {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.chip:hover {
+  color: var(--text);
+}
+
+.chip--active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* Table */
+.table-wrapper {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.item-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.item-table th,
+.item-table td {
+  text-align: left;
+  padding: 0.85rem 1rem;
+}
+
+.item-table thead th {
+  background: var(--surface-alt);
+  padding: 0;
+}
+
+.item-table tbody tr {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.sort-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.sort-header--active {
+  color: var(--text);
+}
+
+.sort-header__icon {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge--active {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--active);
+}
+
+.badge--inactive {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--inactive);
+}
+
+/* States */
+.state {
+  text-align: center;
+  padding: 1.25rem;
+  color: var(--text-muted);
+}
+
+.state--error {
+  color: var(--inactive);
+}
+
+/* Responsive: turn rows into cards on small screens */
+@media (max-width: 540px) {
+  .table-wrapper {
+    border: none;
+    background: transparent;
+  }
+
+  .item-table thead {
+    display: none;
+  }
+
+  .item-table,
+  .item-table tbody,
+  .item-table tr,
+  .item-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .item-table tbody tr {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .item-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .item-table td::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .filter-bar__status {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .chip {
+    flex: 1;
+  }
+}
