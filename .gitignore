@@ -8,6 +8,9 @@ composer.lock
 *.log
 .DS_Store
 
+# Windows "Mark of the Web" metadata streams
+*:Zone.Identifier
+
 # Frontend
 frontend/node_modules/
 frontend/dist/
